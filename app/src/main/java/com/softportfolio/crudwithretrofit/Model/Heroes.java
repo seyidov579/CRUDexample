@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Heroes {
 
+    @SerializedName("id")
+    private String id;
+
     @SerializedName("name")
     private String name;
 
@@ -26,12 +29,12 @@ public class Heroes {
 
     @SerializedName("image")
     @Nullable
-    private byte[] imageurl;
+    private String imageurl;
 
     @SerializedName("bio")
     private String bio;
 
-    public Heroes(String name, String realname, String team, String firstappearance, String createdby, String publisher, byte[] imageurl, String bio) {
+    public Heroes(String name, String realname, String team, String firstappearance, String createdby, String publisher, String imageurl, String bio) {
         this.name = name;
         this.realname = realname;
         this.team = team;
@@ -90,11 +93,11 @@ public class Heroes {
         this.publisher = publisher;
     }
 
-    public byte[] getImageurl() {
+    public String getImageurl() {
         return imageurl;
     }
 
-    public void setImageurl(byte[] imageurl) {
+    public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }
 

@@ -25,6 +25,6 @@ public interface HeroesApi {
     Call<Heroes> getIdHero(@Header("Authorization") String authorization, @Path("id") int id);
 
     @POST("heroesp/")
-    Call<HeroesPOST> sendHeroDate(@Header("Authorization") String authorization, @Body HeroesPOST heroes, @Query("format") String format);
+    Call<Heroes> sendHeroDate(@Header("Authorization") String authorization, @Body Heroes heroes, @Query("format") String format);
 
 }

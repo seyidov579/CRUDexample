@@ -18,7 +18,6 @@ public class HeroesPOST {
 
     private String publisher;
 
-
     private String bio;
 
     public HeroesPOST(String name, String realname, String team, String firstappearance, String createdby, String publisher,  String bio) {

@@ -14,7 +14,10 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.softportfolio.crudwithretrofit.Activity.AddActivity;
 import com.softportfolio.crudwithretrofit.Model.Heroes;
+import com.softportfolio.crudwithretrofit.Model.Login;
+import com.softportfolio.crudwithretrofit.Model.User;
 import com.softportfolio.crudwithretrofit.Service.HeroesApi;
+import com.softportfolio.crudwithretrofit.Service.UserClient;
 import com.softportfolio.crudwithretrofit.Utils.SharedPref;
 
 import java.util.List;
@@ -32,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     Button add;
     SharedPref sharedPref;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listViewHeroes);
         add =findViewById(R.id.add);
 
+//        login();
         sharedPref = new SharedPref();
-
         getHeroes();
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -67,6 +70,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void login(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(UserClient.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Login login = new Login("kenan","test12345");
+        UserClient userService =
+                retrofit.create(UserClient.class);
+        Call<User> call = userService.login(login);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    try {
+                        sharedPref.save(getApplicationContext(), "token", "JWT " + response.body().getToken());
+
+
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getApplicationContext(),sharedPref.getValue(getApplicationContext(),"token"), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"username and password error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 
     private void getHeroes(){
 //        HttpHeaders headers = new HttpHeaders();
