@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 
 public interface HeroesApi {
 
-    String BASE_URL = "http://192.168.0.102:8000/api/v1/";
+    String BASE_URL = "http://192.168.15.26:8000/api/v1/";
 
     @GET("heroes/")
     Call<List<Heroes>> getEats(@Header("Authorization") String authorization);
