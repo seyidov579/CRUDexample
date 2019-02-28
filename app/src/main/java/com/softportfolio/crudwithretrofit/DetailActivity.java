@@ -9,11 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.softportfolio.crudwithretrofit.Model.Heroes;
 import com.softportfolio.crudwithretrofit.Service.HeroesApi;
+import com.softportfolio.crudwithretrofit.Utils.GlideApp;
 import com.softportfolio.crudwithretrofit.Utils.SharedPref;
 
 import retrofit2.Call;
@@ -25,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailActivity extends AppCompatActivity{
 
     EditText textView;
-    SimpleDraweeView imageView;
+    ImageView imageView;
     Button back;
     Context context = this;
     SharedPref sharedPref;
@@ -34,21 +39,20 @@ public class DetailActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_hero);
-
         textView = findViewById(R.id.detailHero);
-        imageView = findViewById(R.id.imageView);
-        back = findViewById(R.id.back);
+        imageView = findViewById(R.id.heroPicture);
+//        back = findViewById(R.id.back);
         sharedPref = new SharedPref();
         Intent intent = getIntent();
         getIdHero(intent.getIntExtra("id", 1));
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
 
@@ -67,8 +71,14 @@ public class DetailActivity extends AppCompatActivity{
                 try {
                     Heroes heroes = response.body();
                     textView.setText(heroes.getBio());
-                    Uri uri = Uri.parse(heroes.getImageurl().toString());
-                    imageView.setImageURI(uri);
+                    if(heroes.getImageurl() != null) {
+                        Uri uri = Uri.parse(heroes.getImageurl());
+                        GlideApp
+                            .with(getApplicationContext())
+                            .load(uri)
+                            .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
+                            .into(imageView);
+                    }
 
                 } catch (NullPointerException e){
                     e.printStackTrace();

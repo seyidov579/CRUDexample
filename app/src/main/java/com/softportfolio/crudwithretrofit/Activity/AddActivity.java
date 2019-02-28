@@ -109,31 +109,27 @@ public class AddActivity extends AppCompatActivity{
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
                 loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 clientBuilder.addInterceptor(loggingInterceptor);
-//                System.out.println("sfdgfsf" + getExternalFilesDir(imageUri.toString()));
-//                byteArray = getByteArrayFromImage(imageUri.toString());
-
-//                Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
                 Bitmap bitmap = null;
 
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(AddActivity.this.getContentResolver(),imageUri);
 
-                    InputStream inputStream = new FileInputStream(imageUri.getPath());//You can get an inputStream using any IO API
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    try {
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            output.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    bytes = output.toByteArray();
+//                    InputStream inputStream = new FileInputStream(imageUri.getPath());//You can get an inputStream using any IO API
+//                    byte[] bytes;
+//                    byte[] buffer = new byte[8192];
+//                    int bytesRead;
+//                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+//                    try {
+//                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                            output.write(buffer, 0, bytesRead);
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    bytes = output.toByteArray();
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                    encodeImage = Base64.encodeToString(output.toByteArray(), Base64.DEFAULT);
+                    encodeImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -145,7 +141,6 @@ public class AddActivity extends AppCompatActivity{
                 Heroes heroesData = new Heroes(name.getText().toString(), realname.getText().toString(), team.getText().toString(), firstappearance.getText().toString(), createdby.getText().toString(), publisher.getText().toString(),encodeImage,
                         bio.getText().toString()
                 );
-                System.out.println("heroes tree" + heroesData.toString());
                 Call<Heroes> heroesCall = heroes.sendHeroDate(sharedPref.getValue(getApplicationContext(),"token") ,heroesData,"json");
                 heroesCall.enqueue(new Callback<Heroes>() {
                     @Override
@@ -204,7 +199,6 @@ public class AddActivity extends AppCompatActivity{
     private byte[] getByteArrayFromImage(String filePath) throws FileNotFoundException, IOException {
 
         File file = new File(filePath);
-        System.out.println(file.exists() + "!!");
 
         FileInputStream fis = new FileInputStream(file);
         //create FileInputStream which obtains input bytes from a file in a file system
@@ -219,7 +213,6 @@ public class AddActivity extends AppCompatActivity{
                 //no doubt here is 0
                 /*Writes len bytes from the specified byte array starting at offset
                 off to this byte array output stream.*/
-                System.out.println("read " + readNum + " bytes,");
             }
         } catch (IOException ex) {
             Log.d("error","error");
@@ -234,8 +227,6 @@ public class AddActivity extends AppCompatActivity{
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             imageUri = data.getData();
-//            System.out.println("fdghf" + imageUri);
-//            image.setImageURI(imageUri);
             GlideApp
                     .with(getApplicationContext())
                     .load(imageUri)

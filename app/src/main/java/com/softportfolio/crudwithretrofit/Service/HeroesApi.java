@@ -16,12 +16,12 @@ import retrofit2.http.Query;
 
 public interface HeroesApi {
 
-    String BASE_URL = "http://192.168.15.18:8000/api/v1/";
+    String BASE_URL = "http://192.168.0.102:8000/api/v1/";
 
     @GET("heroes/")
     Call<List<Heroes>> getEats(@Header("Authorization") String authorization);
 
-    @GET("heroes/{id}")
+    @GET("heroes/{id}/")
     Call<Heroes> getIdHero(@Header("Authorization") String authorization, @Path("id") int id);
 
     @POST("heroesp/")

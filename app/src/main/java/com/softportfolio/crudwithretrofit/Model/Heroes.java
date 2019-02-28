@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class Heroes {
 
     @SerializedName("id")
-    private String id;
+    private int id;
 
     @SerializedName("name")
     private String name;
@@ -43,6 +43,14 @@ public class Heroes {
         this.publisher = publisher;
         this.imageurl = imageurl;
         this.bio = bio;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

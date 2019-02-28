@@ -1,6 +1,7 @@
 package com.softportfolio.crudwithretrofit.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SplashScreen extends Activity {
     SharedPref sharedPref;
+//    ProgressDialog nDialog;
 //    Context context;
 
     @Override
@@ -32,8 +34,14 @@ public class SplashScreen extends Activity {
         startHeavyProcessing();
         sharedPref = new SharedPref();
         login();
-//        context = this;
 
+
+//        nDialog = new ProgressDialog(this);
+//        nDialog.setMessage("Loading...");
+////        nDialog.setTitle("Get Data");
+//        nDialog.setIndeterminate(false);
+//        nDialog.setCancelable(true);
+//        nDialog.show();
     }
 
     private void startHeavyProcessing(){
@@ -64,6 +72,7 @@ public class SplashScreen extends Activity {
             i.putExtra("data", result);
             startActivity(i);
             finish();
+//            nDialog.dismiss();
         }
 
         @Override

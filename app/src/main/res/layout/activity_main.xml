@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,17 +12,26 @@
     <ListView
         android:id="@+id/listViewHeroes"
         android:layout_width="match_parent"
-        android:layout_height="425dp"
-        android:layout_alignParentStart="true"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
 
-    <Button
-        android:id="@+id/add"
-        android:layout_width="142dp"
-        android:layout_height="63dp"
-        android:layout_below="@+id/listViewHeroes"
-        android:layout_alignParentEnd="true"
-        android:text="Add" />
+
+   <android.support.design.widget.FloatingActionButton
+       android:layout_width="wrap_content"
+       android:id="@+id/fab_add"
+       android:layout_height="wrap_content"
+       android:src="@drawable/ic_add_i"
+       app:borderWidth="0dp"
+       app:fabCustomSize="60dp"
+       android:focusable="true"
+       android:clickable="true"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true"
+       android:layout_marginBottom="30dp"
+       android:layout_marginRight="30dp"
+       app:elevation="5dp"
+       android:backgroundTint="@color/colorPrimary"/>
+
 
 </RelativeLayout>
